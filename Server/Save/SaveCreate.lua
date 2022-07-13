@@ -13,6 +13,11 @@ Players.PlayerAdded:Connect(function(player)
     local SwordSaves = Instance.new("Folder")
     SwordSaves.Name = "SwordSaves"
     SwordSaves.Parent = player
+
+    local Coins = Instance.new("IntValue")
+    COINS.Name = "Coins"
+    Coins.Value = 0 --default
+    Coins.Parent = Stats
     
     local EquippedSwords = Instance.new("Folder")
     EquippedSwords.Name = "EquippedSwords"
@@ -42,16 +47,20 @@ Players.PlayerAdded:Connect(function(player)
 	local value1Data = CurrentSword
     local value2Data = Sword1
     local value3Data = Sword2
+    local value4data = Coins
 
 	local s, e = pcall(function()
 		value1Data = DataStore:GetAsync(player.UserId..'-Value1') or 0 --check if they have data, if not it'll be "0"
         value2Data = DataStore:GetAsync(player.UserId..'-Value2') or true --we used true because its a bool value!
         value3Data = DataStore:GetAsync(player.UserId..'-Value3') or false --we used true because its a bool value!
+        value4Data = DataStore:GetAsync(player.UserId..'-Value4') or 0 --r
 	end)
 
 	if s then
-		CurrentSword.Value = value1Data --setting data if its success
-        SwordsBought.Value = value2Data
+	CurrentSword.Value = value1Data --setting data if its success
+        Sword1.Value = value2Data
+        Sword2.Value = value3Data
+        Coins.Value = value4Data
 	else
 		TestService:Error(e)  --if not success then we error it to the console
 	end
@@ -62,6 +71,7 @@ local s, e = pcall(function()
 	DataStore:SetAsync(player.UserId..'-Value1', player.Stats.EquippedSwords.CurrentSword.Value) --setting data
     DataStore:SetAsync(player.UserId..'-Value2', player.Stats.SwordsBought.Sword1.Value)
     DataStore:SetAsync(player.UserId..'-Value3', player.Stats.SwordsBought.Sword2.Value)
+    DataStore:SetAsync(player.UserId..'-Value4', player.Stats.Coins.Value)
 	end)
 	if not s then TestService:Error(e) 
 	end
@@ -73,6 +83,7 @@ game:BindToClose(function(player)
 	      DataStore:SetAsync(player.UserId..'-Value1', player.Stats.EquippedSwords.CurrentSword.Value) --setting data
           DataStore:SetAsync(player.UserId..'-Value2', player.Stats.SwordsBought.Sword1.Value)
           DataStore:SetAsync(player.UserId..'-Value3', player.Stats.SwordsBought.Sword2.Value)
+	       DataStore:SetAsync(player.UserId..'-Value4', player.Stats.Coins.Value)
 	end)
 	if not s then TestService:Error(e) 
 	       end
