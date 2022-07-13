@@ -7,6 +7,6 @@ local swordModel = game:GetService("ReplicatedStorage").Models.Swords.Sword2
 local function BuyClick()
     task.wait(.1) --preventing spam abuse
     local Remote = game:GetService("ReplicatedStorage").Remotes.BuyRemote
-    Remote.FireServer(player, swordID, swordPrice, swordModel)
+    Remote:FireServer(player, swordID, swordPrice, swordModel)
 end
 script.Parent.Activated:Connect(BuyClick)
